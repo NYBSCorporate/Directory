@@ -1,0 +1,284 @@
+<template name="PeopleDetail">
+	{{#if get 'isCreating'}}
+
+		<div class="container-fluid">
+			<form class="form add-people">
+		  		<div class="row">
+
+		    		<div class="col-md-2 member_pic text-center"><img src="{{avatarURL}}" class="img-circle"/></div>
+
+		    		<div class="col-md-10">
+		    			
+			    			<div class="panel panel-default">
+				        		<div class="panel-heading member_name">
+				        			<input type="text" name="name" value="{{name}}" placeholder="First and Last Name" required="required"/>
+				        		</div>        
+				        		<div class="panel-body">
+						        	<div class="member_role">
+						        		<input type="text" name="role" value="{{role}}" placeholder="Role" /></div>
+						        	<div class="member_department">
+						        		<input type="text" name="department" value="{{department}}" placeholder="Department" /></div>
+						            <div class="member_phone">
+						            	<input type="text" name="phone" value="{{phone}}" placeholder="Phone (888) 123-4567" />
+						            </div>
+						            <div class="member_email">
+						            	<input type="text" name="email" value="{{email}}" placeholder="Email" required="required" /></div>
+							        <div class="member_location"><i class="fa fa-map-marker"></i> <input type="text" name="location" value="{{location}}" placeholder="Location, City" />
+							        </div>
+							        <br/>
+							        <div class="member_description">
+							        	<textarea name="description" placeholder="Description">{{description}}</textarea>
+							        </div>
+							        <input type="submit" class="btn" value="Save changes"/>
+							        {{#linkTo route="people"}}
+							        	Cancel
+						        	{{/linkTo}}
+						    	</div>
+						    </div>
+						
+				    </div>
+				    
+				</div>
+			    <div class="row">
+			    	<div class="col-md-10 col-md-offset-2">
+				    	<div class="panel panel-default">
+				    		<div class="panel-heading committee_name">Committees Membership</div>
+							<ul class="panel-body list-group">
+						    	{{#each committees}}
+									<li class="list-group-item">
+										<h4 class="list-group-item-heading">{{name}}</h4>
+										<span class="list-group-item-text"><input name="{{templateEncode name}}" type="checkbox" value="" {{isMember}} > Member</span>
+										<input name="{{templateEncode name}}_committee_role" type="text" value="{{chair.in_committee_role}}" Placeholder="Role In Committee" /></li>
+						    	{{/each}}
+						    </ul>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+			    	<div class="col-md-10 col-md-offset-2">
+				    	<div class="panel panel-default">
+				    		<div class="panel-heading committee_name">Reports</div>
+							<ul class="panel-body list-group">
+						    	{{#each members}}
+									<li class="list-group-item">
+										<h4 class="list-group-item-heading"><input name="reports" id="{{templateEncode name}}" type="radio" value="" checked> {{name}}</h4>
+										<span class="list-group-item-text">{{role}}</span>
+									</li>
+						    	{{/each}}
+						    </ul>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	{{else}}
+		{{#if get 'isEditing' }}
+			{{#if isInRole 'admin,members-manager'}}
+				<div class="container-fluid">
+					<form class="form edit-people">
+				  		<div class="row">
+
+				    		<div class="col-md-2 member_pic text-center"><img src="{{avatarURL}}" class="img-circle"/></div>
+
+				    		<div class="col-md-10">
+				    			
+					    			<div class="panel panel-default">
+						        		<div class="panel-heading member_name">
+						        			<input type="text" name="name" value="{{name}}" placeholder="First and Last Name" required="required"/>
+						        		</div>        
+						        		<div class="panel-body">
+								        	<div class="member_role">
+								        		<input type="text" name="role" value="{{role}}" placeholder="Role" /></div>
+								        	<div class="member_department">
+								        		<input type="text" name="department" value="{{department}}" placeholder="Department" /></div>
+								            <div class="member_phone">
+								            	<input type="text" name="phone" value="{{phone}}" placeholder="Phone (888) 123-4567" />
+								            </div>
+								            <div class="member_email">
+								            	{{#if isInRole 'admin'}}
+								            		<input type="text" name="email" value="{{email}}" placeholder="Email" required="required" />
+								            	{{else}}
+								            		{{email}}
+								            	{{/if}}
+								            </div>
+									        <div class="member_location"><i class="fa fa-map-marker"></i> <input type="text" name="location" value="{{location}}" placeholder="Location, City" />
+									        </div>
+									        <br/>
+									        <div class="member_description">
+									        	<textarea name="description" placeholder="Description">{{description}}</textarea>
+									        </div>
+									        <input type="submit" class="btn" value="Save changes"/>
+									        {{#linkTo route="people"}}
+									        	Cancel
+								        	{{/linkTo}}
+								    	</div>
+								    </div>
+								
+						    </div>
+						    
+						</div>
+					    <div class="row">
+					    	<div class="col-md-10 col-md-offset-2">
+						    	<div class="panel panel-default">
+						    		<div class="panel-heading committee_name">Committees Membership</div>
+									<ul class="panel-body list-group">
+								    	{{#each committees}}
+											<li class="list-group-item">
+												<h4 class="list-group-item-heading">{{name}}</h4>
+												<span class="list-group-item-text"><input name="{{templateEncode name}}" type="checkbox" value="" {{isMember}} > Member</span>
+												<input name="{{templateEncode name}}_committee_role" type="text" value="{{chair.in_committee_role}}" Placeholder="Role In Committee" /></li>
+								    	{{/each}}
+								    </ul>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+					    	<div class="col-md-2 text-center">
+					    	Reports to
+				    		{{#each report}}
+					    		{{#linkTo route='people.detail'}}
+						    		<br /><img src="{{avatarURL}}" class="img-circle thumb" />
+						    		<br />
+						    		<span class="badge smaller">{{name}}</span>
+					    		{{/linkTo}}
+				    		{{/each}}
+					    	</div>
+					    	<div class="col-md-10">
+						    	<div class="panel panel-default">
+						    		<div class="panel-heading committee_name">Reports</div>
+									<ul class="panel-body list-group">
+								    	{{#each members}}
+											<li class="list-group-item">
+												<h4 class="list-group-item-heading"><input name="reports" id="{{templateEncode name}}" type="radio" value="" {{isReport _id}}> {{name}}</h4>
+												<span class="list-group-item-text">{{role}}</span>
+											</li>
+								    	{{/each}}
+								    </ul>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			{{else}}
+
+				<div class="container-fluid">
+					<form class="form edit-people">
+			  			<div class="row">
+
+				    		<div class="col-md-2 member_pic text-center"><img src="{{avatarURL}}" class="img-circle"/></div>
+				    		<div class="col-md-10">
+			    			
+				    			<div class="panel panel-default">
+					        		<div class="panel-heading member_name">
+					        			<input type="text" name="name" value="{{name}}" placeholder="{{name}}" />
+					        		</div>        
+					        		<div class="panel-body">
+							        	<div class="member_role">{{role}}</div>
+							        	<div class="member_department">{{department}}</div>
+							            <div class="member_phone">
+							            	<input type="text" name="phone" value="{{phone}}" placeholder="{{phone}}" />
+							            </div>
+							            <div class="member_email">{{email}}</div>
+								        <div class="member_location"><i class="fa fa-map-marker"></i> <input type="text" name="location" value="{{location}}" placeholder="{{location}}" />
+								        </div>
+								        <br/>
+								        <div class="member_description">
+								        	<textarea name="description" placeholder="{{description}}">{{description}}</textarea>
+								        </div>
+								        <input type="submit" class="btn" value="Save changes"/>
+								        {{#linkTo route="people.detail"}}
+								        	Cancel
+							        	{{/linkTo}}
+							    	</div>
+							    </div>
+							
+						    </div>
+						</div>
+					    <div class="row">
+					    	<div class="col-md-2 text-center">
+					    		Reports to
+					    		{{#each report}}
+						    		{{#linkTo route='people.detail'}}
+							    		<br /><img src="{{avatarURL}}" class="img-circle thumb" />
+							    		<br />
+							    		<span class="badge smaller">{{name}}</span>
+						    		{{/linkTo}}
+					    		{{/each}}
+					    	</div>
+					    	<div class="col-md-10">
+						    	<div class="panel panel-default">
+						    		<div class="panel-heading committee_name">Committees Membership</div>
+									<ul class="panel-body list-group">
+								    	{{#each committees}}
+											<li class="list-group-item">
+												<h4 class="list-group-item-heading">{{name}}</h4>
+												<span class="list-group-item-text"><input name="{{templateEncode name}}" type="checkbox" value="" {{isMember}} > Member</span>
+												<span class="badge">{{chair.in_committee_role}}</span>
+											</li>
+								    	{{/each}}
+								    </ul>
+								</div>
+							</div>
+						</div>
+					</form>	
+				</div>	
+			{{/if}}	
+		{{else}}
+		<div class="container-fluid">
+		  	<div class="row">
+
+	    		<div class="col-md-2 member_pic text-center"><img src="{{avatarURL}}" class="img-circle"/></div>
+	    		<div class="col-md-10">
+	    			<div class="panel panel-default">
+		        		<div class="panel-heading member_name">{{name}}</div>        
+		        		<div class="panel-body">
+				        	<div class="member_role">{{role}}</div>
+				        	<div class="member_department">{{department}}</div>
+				            <div class="member_phone">{{phone}}</div>
+				            <div class="member_email">{{email}}</div>
+					        <div class="member_location"><i class="fa fa-map-marker"></i> {{location}}</div>
+					        <br/>
+					        <div class="member_description">{{description}}</div>
+					        {{#if isInRole 'admin,members-manager'}}
+						        {{#linkTo route='people.edit'}}
+						        	Edit
+						        {{/linkTo}}
+						        <a data-remove>Remove</a>
+					        {{else}}
+						        {{#if isMe email}}
+							        {{#linkTo route='people.edit'}}
+							        	Edit
+							        {{/linkTo}}
+						        {{/if}}
+					        {{/if}}
+
+				    	</div>
+				    </div>
+			    </div>
+			</div>
+		    <div class="row">
+		    	<div class="col-md-2 text-center">
+		    		Reports to
+		    		{{#each report}}
+			    		{{#linkTo route='people.detail'}}
+				    		<br /><img src="{{avatarURL}}" class="img-circle thumb" />
+				    		<br />
+				    		<span class="badge smaller">{{name}}</span>
+			    		{{/linkTo}}
+		    		{{/each}}
+		    	</div>
+		    	<div class="col-md-10">
+			    	<div class="panel panel-default">
+			    		<div class="panel-heading committee_name">Committees Membership</div>
+						<ul class="panel-body list-group">
+					    	{{#each member_committees _id}}
+								<li class="list-group-item">{{name}}<span class="badge">{{chair.in_committee_role}}</span></li>
+					    	{{/each}}
+					    </ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		{{/if}}
+	{{/if}}
+</template>

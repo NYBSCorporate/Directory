@@ -1,0 +1,119 @@
+{
+  "format": "web-program-pre1",
+  "manifest": [
+    {
+      "path": "85649e2e9cf17378d0bb3ea647473ec4f3d46891.js",
+      "where": "client",
+      "type": "js",
+      "cacheable": true,
+      "url": "/85649e2e9cf17378d0bb3ea647473ec4f3d46891.js",
+      "size": 561565,
+      "hash": "85649e2e9cf17378d0bb3ea647473ec4f3d46891"
+    },
+    {
+      "path": "05ac0b82ba15d9538c4a7fe7eeba80b31df654e6.css",
+      "where": "client",
+      "type": "css",
+      "cacheable": true,
+      "url": "/05ac0b82ba15d9538c4a7fe7eeba80b31df654e6.css?meteor_css_resource=true",
+      "size": 134735,
+      "hash": "05ac0b82ba15d9538c4a7fe7eeba80b31df654e6"
+    },
+    {
+      "path": "packages/nemo64_bootstrap-data/bootstrap/fonts/glyphicons-halflings-regular.eot",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/packages/nemo64_bootstrap-data/bootstrap/fonts/glyphicons-halflings-regular.eot",
+      "size": 20127,
+      "hash": "86b6f62b7853e67d3e635f6512a5a5efc58ea3c3"
+    },
+    {
+      "path": "packages/nemo64_bootstrap-data/bootstrap/fonts/glyphicons-halflings-regular.svg",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/packages/nemo64_bootstrap-data/bootstrap/fonts/glyphicons-halflings-regular.svg",
+      "size": 108738,
+      "hash": "de51a8494180a6db074af2dee2383f0a363c5b08"
+    },
+    {
+      "path": "packages/nemo64_bootstrap-data/bootstrap/fonts/glyphicons-halflings-regular.ttf",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/packages/nemo64_bootstrap-data/bootstrap/fonts/glyphicons-halflings-regular.ttf",
+      "size": 45404,
+      "hash": "44bc1850f570972267b169ae18f1cb06b611ffa2"
+    },
+    {
+      "path": "packages/nemo64_bootstrap-data/bootstrap/fonts/glyphicons-halflings-regular.woff",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/packages/nemo64_bootstrap-data/bootstrap/fonts/glyphicons-halflings-regular.woff",
+      "size": 23424,
+      "hash": "278e49a86e634da6f2a02f3b47dd9d2a8f26210f"
+    },
+    {
+      "path": "packages/nemo64_bootstrap-data/bootstrap/fonts/glyphicons-halflings-regular.woff2",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/packages/nemo64_bootstrap-data/bootstrap/fonts/glyphicons-halflings-regular.woff2",
+      "size": 18028,
+      "hash": "ca35b697d99cae4d1b60f2d60fcd37771987eb07"
+    },
+    {
+      "path": "app/.gitkeep",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/.gitkeep",
+      "size": 1,
+      "hash": "adc83b19e793491b1c6ea0fd8b46cd9f32e592fc"
+    },
+    {
+      "path": "app/images/antoine.jpeg",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/images/antoine.jpeg",
+      "size": 2019,
+      "hash": "4b9fe42d13505daa81b9b55d6df0663446498b72"
+    },
+    {
+      "path": "app/images/background.jpg",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/images/background.jpg",
+      "size": 406329,
+      "hash": "22270eae2c25e7159ed110d77d658c422f73ac27"
+    },
+    {
+      "path": "app/images/background.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/images/background.png",
+      "size": 2046092,
+      "hash": "abccddd11782aff51b6bd0279b0f749d9d505c6b"
+    },
+    {
+      "path": "app/images/genericAvatar.jpg",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/images/genericAvatar.jpg",
+      "size": 10835,
+      "hash": "69e81ecbbf5e518c4362e710b0916d74dab5f540"
+    },
+    {
+      "path": "head.html",
+      "where": "internal",
+      "type": "head",
+      "hash": "782931a86832708f88f0d332253df84289b1293e"
+    }
+  ]
+}

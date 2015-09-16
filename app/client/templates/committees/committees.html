@@ -1,0 +1,28 @@
+<template name="Committees">
+  {{#each committees}}
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			{{#linkTo route='committees.detail'}}
+				{{name}}
+			{{/linkTo}}
+		</div>
+		<div class="panel-body">
+			{{description}}
+		</div>
+		<div class="flex-container">
+			{{#each committee_members _id}}
+				<div class="vertical-flex-container committee-member">
+				<div>
+					<img src="{{avatarURL}}" class="img-circle thumb"/>
+				</div>
+				<div>
+					{{name}}
+				</div>
+				<span class="badge">{{chair.in_committee_role}}</span>
+			</div>
+			{{/each}}
+			
+		</div>
+	</div>
+{{/each}}
+</template>

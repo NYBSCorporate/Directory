@@ -1,0 +1,75 @@
+<template name="People">
+	<div class="row">
+		<div id="custom-search-input">
+	        <div class="col-md-12">
+	            {{> esInput index="members"  class="search-query form-control" placeholder="Search..." }}
+	        </div>
+	    </div>
+	</div>
+	 
+	{{#ifEsInputIsEmpty index="members"}}
+        {{#each members}}
+			<div class="jumbotron">
+        	<div class="container-fluid">
+        		<div class="col-md-2 member_pic">
+        			{{#linkTo route='people.detail'}}
+        				<img src="{{avatarURL}}" class="img-circle"/>
+    				{{/linkTo}}
+				</div>
+        		<div class="col-md-5 col-md-offset-1">
+		        		<div class="member_name">
+		        			{{#linkTo route='people.detail'}}
+		        				{{name}}
+	        				{{/linkTo}}
+		        		</div>        
+			        	<div class="member_role">{{role}}</div>
+			        	<div class="member_department">{{department}}</div>
+			            <div class="member_phone">{{phone}}</div>
+			            <div class="member_email">{{email}}</div>
+				        <div class="member_location"><i class="fa fa-map-marker"></i> {{location}}</div>
+				        <br/>
+				        <div class="member_description">{{description}}</div>
+			    </div>
+			    <div class="col-md-4 ">
+			    	<div class="committee_name">Committees</div>
+    					<ul class="list-group">
+					    	{{#each member_committees _id}}
+								<li class="list-group-item">{{name}}<span class="badge">{{chair.in_committee_role}}</span></li>
+							{{else}}
+								<li class="list-group-item"> </li>
+					    	{{/each}}
+					    </ul>
+				</div>
+        	</div>
+	    </div>
+		{{/each}}
+    {{/ifEsInputIsEmpty}}
+    	
+	{{#esEach index="members"}}
+        <div class="jumbotron">
+        	<div class="container-fluid">
+        		<div class="col-md-2 member_pic"><img src="{{avatarURL}}" class="img-circle"/></div>
+        		<div class="col-md-5 col-md-offset-1">
+		        		<div class="member_name">{{name}}</div>        
+			        	<div class="member_role">{{role}}</div>
+			        	<div class="member_department">{{department}}</div>
+			            <div class="member_phone">{{phone}}</div>
+			            <div class="member_email">{{email}}</div>
+				        <div class="member_location"><i class="fa fa-map-marker"></i> {{location}}</div>
+				        <br/>
+				        <div class="member_description">{{description}}</div>
+			    </div>
+			    <div class="col-md-4">
+			    	<div class="committee_name">Committees</div>
+    					<ul class="list-group">
+					    	{{#each member_committees _id}}
+								<li class="list-group-item">{{name}}<span class="badge">{{in_committee_role}}</span></li>
+					    	{{/each}}
+					    </ul>
+				</div>
+        	</div>
+	    </div>
+    {{/esEach}}
+</template>
+
+
