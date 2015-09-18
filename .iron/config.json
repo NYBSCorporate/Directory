@@ -14,5 +14,12 @@
   "route": {
     "controller": true,
     "template": true
+  },
+
+  "mup": {
+  "version": "mup|mupx",
+  "development": "/config/development",
+  "staging": "/config/staging",
+  "production": "/config/production"
   }
 }

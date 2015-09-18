@@ -67,16 +67,16 @@ Template.PeopleDetail.events({
 		var location=tmpl.find('input[name=location]').value;
 		var description=tmpl.find('textarea[name=description]').value;
 
-		if(Roles.userIsInRole(id, ['admin','members_manager'])){
+		if(Roles.userIsInRole(Meteor.userId(), ['admin','members_manager'])){
 			var role=tmpl.find('input[name=role]').value;
 			var department=tmpl.find('input[name=department]').value;
-			if(Roles.userIsInRole(id, ['admin','members_manager'])){
+			if(Roles.userIsInRole(Meteor.userId(), ['admin','members_manager'])){
 				var email=tmpl.find('input[name=email]').value;
 			}else{
 				var email=tmpl.find('.member_email').value;
 				console.log(email);
 			}
-			Members.update({_id:id},{
+			var result = Members.update({_id:id},{
 				$set: {
 						name:name,
 						role:role,
@@ -113,77 +113,80 @@ Template.PeopleDetail.events({
 
 	'submit .add-people': function(e,tmpl){
 		e.preventDefault();
+		if(Roles.userIsInRole(Meteor.userId(), ['admin','members_manager'])){
+			var name=tmpl.find('input[name=name]').value;
+			var role=tmpl.find('input[name=role]').value;
+			var department=tmpl.find('input[name=department]').value;
+			var phone=tmpl.find('input[name=phone]').value;
+			var email=tmpl.find('input[name=email]').value;
+			var location=tmpl.find('input[name=location]').value;
+			var description=tmpl.find('textarea[name=description]').value;
+			var avatarURL = '/images/genericAvatar.jpg';
 
-		var name=tmpl.find('input[name=name]').value;
-		var role=tmpl.find('input[name=role]').value;
-		var department=tmpl.find('input[name=department]').value;
-		var phone=tmpl.find('input[name=phone]').value;
-		var email=tmpl.find('input[name=email]').value;
-		var location=tmpl.find('input[name=location]').value;
-		var description=tmpl.find('textarea[name=description]').value;
-		var avatarURL = '/images/genericAvatar.jpg';
-
-		var checkedRadioBtn = tmpl.find('input[type=radio]:checked');
-		var reportId;
-		if(checkedRadioBtn != null){
-			reportId = Members.findOne({name: templateDecode(checkedRadioBtn.id)},
-				{fields: {_id: 1}})._id;
-		}
-
-		var id  = Members.insert({
-				name:name,
-				role:role,
-				department:department,
-				phone: phone,
-				email:email,
-				location: location,
-				description: description,
-				avatarURL: avatarURL,
-				reportsTo: reportId,
-				createdAt: new Date
-			});
-
-		/* Capturing and updating Committee Membership information */
-		var membership_document_array = new Array;
-		var checkedCheckboxes = tmpl.findAll('input[type=checkbox]:not([name=administrator]):checked');
-		
-		if(checkedCheckboxes.length > 0){
-			checkedCheckboxes.forEach(function(checkbox){
-				var in_committee_role = tmpl.find('input[name='+checkbox.name+'_committee_role]').value;
-				var memberCommitteeTrack = MemberCommitteeTrack.findOne({member_id:id, committee_id:Committees.findOne({name: templateDecode(checkbox.name)},{fields: {_id: 1}})._id});
-				var membership_document = 
-						{
-							_id: memberCommitteeTrack != null? memberCommitteeTrack._id: "",
-							member_id: id,
-							committee_id: Committees.findOne({name: templateDecode(checkbox.name)},{fields: {_id: 1}})._id,
-							in_committee_role: in_committee_role
-						}
-				membership_document_array.push(membership_document);
-			});
-		} else {
-
-			var membership_document = 
-			{
-				_id: "clearAll",
-				member_id: id
+			var checkedRadioBtn = tmpl.find('input[type=radio]:checked');
+			var reportId;
+			if(checkedRadioBtn != null){
+				reportId = Members.findOne({name: templateDecode(checkedRadioBtn.id)},
+					{fields: {_id: 1}})._id;
 			}
-			//console.log(membership_document);
-			membership_document_array.push(membership_document);
-		}
-		
-		
-		Meteor.call('upsertBulkCommitteeMembershipData', membership_document_array, function(error, result){
-			if(error){
-				console.log(error);
+
+			var id  = Members.insert({
+					name:name,
+					role:role,
+					department:department,
+					phone: phone,
+					email:email,
+					location: location,
+					description: description,
+					avatarURL: avatarURL,
+					reportsTo: reportId,
+					createdAt: new Date
+				});
+
+			/* Capturing and updating Committee Membership information */
+			var membership_document_array = new Array;
+			var checkedCheckboxes = tmpl.findAll('input[type=checkbox]:not([name=administrator]):checked');
+			
+			if(checkedCheckboxes.length > 0){
+				checkedCheckboxes.forEach(function(checkbox){
+					var in_committee_role = tmpl.find('input[name='+checkbox.name+'_committee_role]').value;
+					var memberCommitteeTrack = MemberCommitteeTrack.findOne({member_id:id, committee_id:Committees.findOne({name: templateDecode(checkbox.name)},{fields: {_id: 1}})._id});
+					var membership_document = 
+							{
+								_id: memberCommitteeTrack != null? memberCommitteeTrack._id: "",
+								member_id: id,
+								committee_id: Committees.findOne({name: templateDecode(checkbox.name)},{fields: {_id: 1}})._id,
+								in_committee_role: in_committee_role
+							}
+					membership_document_array.push(membership_document);
+				});
 			} else {
-				//console.log(result);
+
+				var membership_document = 
+				{
+					_id: "clearAll",
+					member_id: id
+				}
+				//console.log(membership_document);
+				membership_document_array.push(membership_document);
 			}
-		});
+			
+			
+			Meteor.call('upsertBulkCommitteeMembershipData', membership_document_array, function(error, result){
+				if(error){
+					console.log(error);
+				} else {
+					//console.log(result);
+				}
+			});
 
 
-		
+			
 
-		Router.go('people.detail', {_id: id});
+			Router.go('people.detail', {_id: id});
+		} else {
+			Router.go('people');
+		}
 	},
 	'click [data-remove]': function (e,tmpl){
 		var membership_document_array = new Array;
@@ -197,7 +200,7 @@ Template.PeopleDetail.events({
 				member_id: id
 			}
 		membership_document_array.push(membership_document);
-		Meteor.call('upsertBulkCommittteeMembershipData', membership_document_array, function(error, result){
+		Meteor.call('upsertBulkCommitteeMembershipData', membership_document_array, function(error, result){
 			if(error){
 				console.log(error);
 			} else {

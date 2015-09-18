@@ -23,6 +23,22 @@ Accounts.onCreateUser(function(options, user){
 	return user;
 });
 
+Accounts.onLogin(function(attempt_info_object){
+	if(attempt_info_object != null){
+		var email = attempt_info_object.user.profile.email;
+		var member = Members.find({email: email}, {fields: {_id: 1, avatarURL: 1}}).fetch();
+		var googleAvatar = attempt_info_object.user.services.google.picture;
+		if(member[0].avatarURL != googleAvatar){
+			Members.update({_id: member[0]._id},
+							{ $set: {
+								avatarURL: googleAvatar
+							}}
+			);
+			console.log('Updated profile picture for member '+member[0]._id);
+		}
+	}
+});
+	
 function defineRole(id, email){
 	Roles.addUsersToRoles(id, 'default-user');
 		if(email == 'antoine@newyorkbeesanctuary.org'){

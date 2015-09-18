@@ -9,7 +9,7 @@ Template.CommitteeDetail.events({
 		var description=tmpl.find('textarea[name=description]').value;
 
 		var id = this._id;
-		if(Roles.userIsInRole(id, ['admin','committees_manager'])){
+		if(Roles.userIsInRole(Meteor.userId(), ['admin','committees_manager'])){
 			Committees.update({_id:id},{
 				$set: {
 					name:name,

@@ -48,9 +48,17 @@
 	{{#esEach index="members"}}
         <div class="jumbotron">
         	<div class="container-fluid">
-        		<div class="col-md-2 member_pic"><img src="{{avatarURL}}" class="img-circle"/></div>
+        		<div class="col-md-2 member_pic">
+        			<a href="/people/{{_id}}">
+        				<img src="{{avatarURL}}" class="img-circle"/>
+    				</a>
+				</div>
         		<div class="col-md-5 col-md-offset-1">
-		        		<div class="member_name">{{name}}</div>        
+		        		<div class="member_name">
+		        			<a href="/people/{{_id}}">
+		        				{{name}}
+	        				</a>
+		        		</div>        
 			        	<div class="member_role">{{role}}</div>
 			        	<div class="member_department">{{department}}</div>
 			            <div class="member_phone">{{phone}}</div>
@@ -59,11 +67,13 @@
 				        <br/>
 				        <div class="member_description">{{description}}</div>
 			    </div>
-			    <div class="col-md-4">
+			    <div class="col-md-4 ">
 			    	<div class="committee_name">Committees</div>
     					<ul class="list-group">
 					    	{{#each member_committees _id}}
-								<li class="list-group-item">{{name}}<span class="badge">{{in_committee_role}}</span></li>
+								<li class="list-group-item">{{name}}<span class="badge">{{chair.in_committee_role}}</span></li>
+							{{else}}
+								<li class="list-group-item"> </li>
 					    	{{/each}}
 					    </ul>
 				</div>

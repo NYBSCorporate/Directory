@@ -8,6 +8,7 @@ Template.Login.events({
 			}, function(err){
 				if(err)
 					console.log('Login error', err.reason);
+					
 				if(Router.current().route.name === 'login') {
         			// if we are on the login route, we want to redirect the user
         			return Router.go('people');

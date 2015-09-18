@@ -21,11 +21,11 @@ Committees.permit(['insert', 'update', 'remove']).ifHasRole('admin','committees-
 - Members can update their profile (only changing name, phone, location, description)
 */
 
-// Clients may insert posts only if a user is logged in
-Members.permit(['insert', 'update', 'remove']).ifHasRole('admin','members-manager').apply();
-
 // Will need to see how to restrict access to only given profile based on UserID
 Members.permit(['update']).ifLoggedIn().onlyProps(['name','phone','location','description','updatedAt']).apply();
+
+// Clients may insert posts only if a user is logged in
+Members.permit(['insert', 'update', 'remove']).ifHasRole('admin','members-manager').apply();
 
 
 /* MemberCommitteeTrack Collection security rules */
