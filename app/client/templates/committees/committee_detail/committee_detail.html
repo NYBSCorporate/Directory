@@ -1,63 +1,69 @@
 <template name="CommitteeDetail">
 	{{#if get 'isCreating'}}
-		<form class="form add-committee">
+		
 			<div class="panel panel-default">
-				<div class="panel-heading">
-						<input type="text" name="name" value="{{name}}" placeholder="Committee Name" />
-				</div>
-				<div class="panel-body">
-					<textarea name="description" placeholder="Description"></textarea>
-				</div>
-				<div class="flex-container">
-					{{#each committee_members _id}}
-						<div class="vertical-flex-container committee-member">
-						<div>
-							<img src="{{avatarURL}}" class="img-circle thumb"/>
+				{{#autoForm collection="Committees" id="insertCommitteeForm" type="insert"}}
+					<fieldset>
+						<div class="panel-heading">
+								{{>afQuickField name='name'}}
 						</div>
-						<div>
-							{{name}}
+						<div class="panel-body">
+							{{>afQuickField name='description'}}
 						</div>
-						<span class="badge">{{chair.in_committee_role}}</span>
-					</div>
-					{{/each}}
-					
-				</div>
-				<input type="submit" class="btn" value="Save changes"/>
-								        {{#linkTo route="committees"}}
-								        	Cancel
-							        	{{/linkTo}}
+					</fieldset>
+					<!-- <div class="flex-container">
+						{{#each committee_members _id}}
+							<div class="vertical-flex-container committee-member">
+							<div>
+								<img src="{{avatarURL}}" class="img-circle thumb"/>
+							</div>
+							<div>
+								{{name}}
+							</div>
+							<span class="badge">{{chair.in_committee_role}}</span>
+						</div>
+						{{/each}}
+						
+					</div> -->
+					<button type="submit" class="btn btn-primary">Create Committee</button>
+					{{#linkTo route="committees"}}
+			        	Cancel
+		        	{{/linkTo}}
+				{{/autoForm}}
+								       
 			</div>
-		</form>
+		
 	{{else}}
 		{{#if get 'isEditing' }}
-		<form class="form edit-committee">
 			<div class="panel panel-default">
-				<div class="panel-heading">
-						<input type="text" name="name" value="{{name}}" placeholder="{{name}}" />
-				</div>
-				<div class="panel-body">
-					<textarea name="description" placeholder="{{description}}">{{description}}</textarea>
-				</div>
-				<div class="flex-container">
-					{{#each committee_members _id}}
-						<div class="vertical-flex-container committee-member">
-						<div>
-							<img src="{{avatarURL}}" class="img-circle thumb"/>
-						</div>
-						<div>
-							{{name}}
-						</div>
-						<span class="badge">{{chair.in_committee_role}}</span>
+				{{#autoForm collection="Committees" id="updateCommitteeForm" type="update" doc=this}}
+				<fieldset>
+					<div class="panel-heading">
+							{{>afQuickField name='name'}}
 					</div>
-					{{/each}}
-					
+					<div class="panel-body">
+						{{>afQuickField name='description'}}
+					</div>
+				</fieldset>
+			<!-- <div class="flex-container">
+				{{#each committee_members _id}}
+				<div class="vertical-flex-container committee-member">
+					<div>
+						<img src="{{avatarURL}}" class="img-circle thumb"/>
+					</div>
+					<div>
+						{{name}}
+					</div>
+					<span class="badge">{{chair.in_committee_role}}</span>
 				</div>
-				<input type="submit" class="btn" value="Save changes"/>
-								        {{#linkTo route="committees.detail"}}
-								        	Cancel
-							        	{{/linkTo}}
+				{{/each}}
+			</div> -->
+				<button type="submit" class="btn btn-primary">Save Changes</button>
+		        {{#linkTo route="committees.detail"}}
+		        	Cancel
+	        	{{/linkTo}}
+	        	{{/autoForm}}
 			</div>
-		</form>
 		{{else}}
 	  
 		<div class="panel panel-default">

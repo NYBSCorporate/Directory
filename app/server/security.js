@@ -22,11 +22,11 @@ Committees.permit(['insert', 'update', 'remove']).ifHasRole('admin','committees-
 */
 
 // Will need to see how to restrict access to only given profile based on UserID
-Members.permit(['update']).ifLoggedIn().onlyProps(['name','phone','location','description','updatedAt']).apply();
+//Members.permit(['update']).ifLoggedIn().onlyProps(['name','phone','location','description','updatedAt']).apply();
 
 // Clients may insert posts only if a user is logged in
 Members.permit(['insert', 'update', 'remove']).ifHasRole('admin','members-manager').apply();
-
+Members.permit(['update']).ifLoggedIn().apply();
 
 /* MemberCommitteeTrack Collection security rules */
 /*
@@ -36,9 +36,12 @@ Members.permit(['insert', 'update', 'remove']).ifHasRole('admin','members-manage
 - Members can update their profile and join/leave committees
 */
 
+MemberCommitteeTrack.permit(['update']).ifLoggedIn().onlyProps(['member_id','committee_id']).apply();
+
 // Clients may insert posts only if a user is logged in
 MemberCommitteeTrack.permit(['insert', 'update', 'remove']).ifHasRole('admin','committees-manager').apply();
 // Will need to see how to restrict update to member's documents based on UserID
-MemberCommitteeTrack.permit(['update']).ifLoggedIn().onlyProps(['member_id','committee_id']).apply();
+
+
 
 

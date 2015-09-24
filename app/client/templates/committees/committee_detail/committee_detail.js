@@ -2,43 +2,7 @@
 /* CommitteeDetail: Event Handlers */
 /*****************************************************************************/
 Template.CommitteeDetail.events({
-	'submit .edit-committee': function(e,tmpl){
-		e.preventDefault();
-
-		var name=tmpl.find('input[name=name]').value;
-		var description=tmpl.find('textarea[name=description]').value;
-
-		var id = this._id;
-		if(Roles.userIsInRole(Meteor.userId(), ['admin','committees_manager'])){
-			Committees.update({_id:id},{
-				$set: {
-					name:name,
-					description: description,
-					updatedAt: new Date
-				}
-			});
-			Router.go('committees.detail', {_id: id});
-		} else {
-			console.log("Access Denied");
-			Router.go('committees');
-		}
-
-		
-	},
-	'submit .add-committee': function(e,tmpl){
-		e.preventDefault();
-
-		var name=tmpl.find('input[name=name]').value;
-		var description=tmpl.find('textarea[name=description]').value;
-
-		var id = Committees.insert({
-				name:name,
-				description: description,
-				createdAt: new Date
-		});
-
-		Router.go('committees.detail', {_id: id});
-	},
+	
 	'click [data-remove]':function (e,tmpl){
 		var id = this._id;
 		Committees.remove({_id:id});

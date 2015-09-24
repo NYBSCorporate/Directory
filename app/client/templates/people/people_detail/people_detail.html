@@ -2,34 +2,45 @@
 	{{#if get 'isCreating'}}
 
 		<div class="container-fluid">
-			<form class="form add-people">
+			
+				{{#autoForm collection="Members" id="insertMemberForm" type="insert"}}
 		  		<div class="row">
-
+		  			
 		    		<div class="col-md-2 member_pic text-center"><img src="{{avatarURL}}" class="img-circle"/></div>
 
 		    		<div class="col-md-10">
 		    			
 			    			<div class="panel panel-default">
 				        		<div class="panel-heading member_name">
-				        			<input type="text" name="name" value="{{name}}" placeholder="First and Last Name" required="required"/>
+				        			
+				        			{{>afQuickField name='name'}}
 				        		</div>        
 				        		<div class="panel-body">
 						        	<div class="member_role">
-						        		<input type="text" name="role" value="{{role}}" placeholder="Role" /></div>
+						        		
+						        		{{>afQuickField name='role'}}
+						        	</div>
 						        	<div class="member_department">
-						        		<input type="text" name="department" value="{{department}}" placeholder="Department" /></div>
+						        		
+						        		{{>afQuickField name='department'}}
+						        	</div>
 						            <div class="member_phone">
-						            	<input type="text" name="phone" value="{{phone}}" placeholder="Phone (888) 123-4567" />
+						            	
+						            	{{>afQuickField name='phone'}}
 						            </div>
 						            <div class="member_email">
-						            	<input type="text" name="email" value="{{email}}" placeholder="Email" required="required" /></div>
-							        <div class="member_location"><i class="fa fa-map-marker"></i> <input type="text" name="location" value="{{location}}" placeholder="Location, City" />
+						            	
+						            	{{>afQuickField name='email'}}
+						            </div>
+							        <div class="member_location">
+							        	{{>afQuickField name='location'}}
 							        </div>
 							        <br/>
 							        <div class="member_description">
-							        	<textarea name="description" placeholder="Description">{{description}}</textarea>
+							        	{{>afQuickField name='description'}}
 							        </div>
-							        <input type="submit" class="btn" value="Save changes"/>
+							        {{> afQuickField name="reportsTo" options=memberList}}
+							        <button type="submit" class="btn btn-primary">Create Member</button>
 							        {{#linkTo route="people"}}
 							        	Cancel
 						        	{{/linkTo}}
@@ -37,45 +48,35 @@
 						    </div>
 						
 				    </div>
+				
 				    
+
 				</div>
+							
 			    <div class="row">
 			    	<div class="col-md-10 col-md-offset-2">
 				    	<div class="panel panel-default">
 				    		<div class="panel-heading committee_name">Committees Membership</div>
-							<ul class="panel-body list-group">
+							<ul id="committeeSelection" class="panel-body list-group">
 						    	{{#each committees}}
 									<li class="list-group-item">
 										<h4 class="list-group-item-heading">{{name}}</h4>
-										<span class="list-group-item-text"><input name="{{templateEncode name}}" type="checkbox" value="" {{isMember}} > Member</span>
-										<input name="{{templateEncode name}}_committee_role" type="text" value="{{chair.in_committee_role}}" Placeholder="Role In Committee" /></li>
+										<span class="list-group-item-text"><input name="{{templateEncode name}}" type="checkbox" value="{{name}}" {{isMember}} > Member</span>
+										<input name="{{templateEncode name}}_committee_role" type="text" value="{{chair.in_committee_role}}" class="form-control" Placeholder="Role In Committee" /></li>
 						    	{{/each}}
 						    </ul>
 						</div>
 					</div>
 				</div>
-				<div class="row">
-			    	<div class="col-md-10 col-md-offset-2">
-				    	<div class="panel panel-default">
-				    		<div class="panel-heading committee_name">Reports</div>
-							<ul class="panel-body list-group">
-						    	{{#each members}}
-									<li class="list-group-item">
-										<h4 class="list-group-item-heading"><input name="reports" id="{{templateEncode name}}" type="radio" value="" checked> {{name}}</h4>
-										<span class="list-group-item-text">{{role}}</span>
-									</li>
-						    	{{/each}}
-						    </ul>
-						</div>
-					</div>
-				</div>
-			</form>
+	{{/autoForm}}
+				
 		</div>
 	{{else}}
 		{{#if get 'isEditing' }}
-			{{#if isInRole 'admin,members-manager'}}
+			
+
 				<div class="container-fluid">
-					<form class="form edit-people">
+						{{#autoForm collection="Members" id="updateMemberForm" type="update" doc=this}}
 				  		<div class="row">
 
 				    		<div class="col-md-2 member_pic text-center"><img src="{{avatarURL}}" class="img-circle"/></div>
@@ -84,30 +85,40 @@
 				    			
 					    			<div class="panel panel-default">
 						        		<div class="panel-heading member_name">
-						        			<input type="text" name="name" value="{{name}}" placeholder="First and Last Name" required="required"/>
+						        			{{#with shouldBeDisabled }}
+						        				{{>afQuickField name='name' disabled=this }}
+					        				{{/with}}
 						        		</div>        
 						        		<div class="panel-body">
 								        	<div class="member_role">
-								        		<input type="text" name="role" value="{{role}}" placeholder="Role" /></div>
+								        		{{#with shouldBeDisabled }}
+							        				{{>afQuickField name='role' disabled=this }}
+						        				{{/with}}
+								        	</div>
 								        	<div class="member_department">
-								        		<input type="text" name="department" value="{{department}}" placeholder="Department" /></div>
+								        		{{#with shouldBeDisabled }}
+							        				{{>afQuickField name='department' disabled=this }}
+						        				{{/with}}
+								        	</div>
 								            <div class="member_phone">
-								            	<input type="text" name="phone" value="{{phone}}" placeholder="Phone (888) 123-4567" />
+								            	{{>afQuickField name='phone'}}
 								            </div>
 								            <div class="member_email">
-								            	{{#if isInRole 'admin'}}
-								            		<input type="text" name="email" value="{{email}}" placeholder="Email" required="required" />
-								            	{{else}}
-								            		{{email}}
-								            	{{/if}}
+								            	{{#with shouldBeDisabled }}
+							        				{{>afQuickField name='email' disabled=this }}
+						        				{{/with}}
 								            </div>
-									        <div class="member_location"><i class="fa fa-map-marker"></i> <input type="text" name="location" value="{{location}}" placeholder="Location, City" />
+									        <div class="member_location"><i class="fa fa-map-marker"></i> 
+									        	{{>afQuickField name='location'}}
 									        </div>
 									        <br/>
 									        <div class="member_description">
-									        	<textarea name="description" placeholder="Description">{{description}}</textarea>
+									        	{{>afQuickField name='description'}}
 									        </div>
-									        <input type="submit" class="btn" value="Save changes"/>
+								             	{{#with shouldBeDisabled }}
+									         		{{> afQuickField name="reportsTo" disabled=this options=memberList}}
+								         		{{/with}}
+									        <button type="submit" class="btn btn-primary">Update Member</button>
 									        {{#linkTo route="people"}}
 									        	Cancel
 								        	{{/linkTo}}
@@ -126,103 +137,18 @@
 											<li class="list-group-item">
 												<h4 class="list-group-item-heading">{{name}}</h4>
 												<span class="list-group-item-text"><input name="{{templateEncode name}}" type="checkbox" value="" {{isMember}} > Member</span>
-												<input name="{{templateEncode name}}_committee_role" type="text" value="{{chair.in_committee_role}}" Placeholder="Role In Committee" /></li>
+												
+						        				<input name="{{templateEncode name}}_committee_role" type="text" value="{{chair.in_committee_role}}" class="form-control" Placeholder="Role In Committee" {{disabled}} />
+						        				
+						        			</li>
 								    	{{/each}}
 								    </ul>
 								</div>
 							</div>
 						</div>
-						<div class="row">
-					    	<div class="col-md-2 text-center">
-					    	Reports to
-				    		{{#each report}}
-					    		{{#linkTo route='people.detail'}}
-						    		<br /><img src="{{avatarURL}}" class="img-circle thumb" />
-						    		<br />
-						    		<span class="badge smaller">{{name}}</span>
-					    		{{/linkTo}}
-				    		{{/each}}
-					    	</div>
-					    	<div class="col-md-10">
-						    	<div class="panel panel-default">
-						    		<div class="panel-heading committee_name">Reports</div>
-									<ul class="panel-body list-group">
-								    	{{#each members}}
-											<li class="list-group-item">
-												<h4 class="list-group-item-heading"><input name="reports" id="{{templateEncode name}}" type="radio" value="" {{isReport _id}}> {{name}}</h4>
-												<span class="list-group-item-text">{{role}}</span>
-											</li>
-								    	{{/each}}
-								    </ul>
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
-			{{else}}
-
-				<div class="container-fluid">
-					<form class="form edit-people">
-			  			<div class="row">
-
-				    		<div class="col-md-2 member_pic text-center"><img src="{{avatarURL}}" class="img-circle"/></div>
-				    		<div class="col-md-10">
-			    			
-				    			<div class="panel panel-default">
-					        		<div class="panel-heading member_name">
-					        			<input type="text" name="name" value="{{name}}" placeholder="{{name}}" />
-					        		</div>        
-					        		<div class="panel-body">
-							        	<div class="member_role">{{role}}</div>
-							        	<div class="member_department">{{department}}</div>
-							            <div class="member_phone">
-							            	<input type="text" name="phone" value="{{phone}}" placeholder="{{phone}}" />
-							            </div>
-							            <div class="member_email">{{email}}</div>
-								        <div class="member_location"><i class="fa fa-map-marker"></i> <input type="text" name="location" value="{{location}}" placeholder="{{location}}" />
-								        </div>
-								        <br/>
-								        <div class="member_description">
-								        	<textarea name="description" placeholder="{{description}}">{{description}}</textarea>
-								        </div>
-								        <input type="submit" class="btn" value="Save changes"/>
-								        {{#linkTo route="people.detail"}}
-								        	Cancel
-							        	{{/linkTo}}
-							    	</div>
-							    </div>
-							
-						    </div>
-						</div>
-					    <div class="row">
-					    	<div class="col-md-2 text-center">
-					    		Reports to
-					    		{{#each report}}
-						    		{{#linkTo route='people.detail'}}
-							    		<br /><img src="{{avatarURL}}" class="img-circle thumb" />
-							    		<br />
-							    		<span class="badge smaller">{{name}}</span>
-						    		{{/linkTo}}
-					    		{{/each}}
-					    	</div>
-					    	<div class="col-md-10">
-						    	<div class="panel panel-default">
-						    		<div class="panel-heading committee_name">Committees Membership</div>
-									<ul class="panel-body list-group">
-								    	{{#each committees}}
-											<li class="list-group-item">
-												<h4 class="list-group-item-heading">{{name}}</h4>
-												<span class="list-group-item-text"><input name="{{templateEncode name}}" type="checkbox" value="" {{isMember}} > Member</span>
-												<span class="badge">{{chair.in_committee_role}}</span>
-											</li>
-								    	{{/each}}
-								    </ul>
-								</div>
-							</div>
-						</div>
-					</form>	
+						{{/autoForm}}
 				</div>	
-			{{/if}}	
+
 		{{else}}
 		<div class="container-fluid">
 		  	<div class="row">
