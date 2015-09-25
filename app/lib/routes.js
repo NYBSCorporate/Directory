@@ -65,6 +65,9 @@ Router.route('add/people', {
 Router.route('/', function(){
     this.redirect('/people');
 });
+Router.route('/login', function(){
+    this.redirect('/people');
+});
 
 Router.route('committees', {
   name: 'committees',

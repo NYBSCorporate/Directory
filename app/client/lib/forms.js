@@ -6,7 +6,10 @@ var hooksObject = {
     // Replace `formType` with the form `type` attribute to which this hook applies
     insert: function(doc) {
       // Potentially alter the doc
+
+
      if(this.formId.substring(6, this.formId.length-4) == "Member"){
+      
         /* Capturing and updating Committee Membership information */
           membership_document_array = new Array;
           var currentTemplate = this.template;

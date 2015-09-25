@@ -98,3 +98,11 @@ a {
   font-size: 10px;
 }
 
+.navbar-brand{
+  font-size: 16px;
+}
+
+ul.notifications{
+  position: fixed;
+}
+
