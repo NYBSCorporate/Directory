@@ -23,7 +23,6 @@ PeopleController = RouteController.extend({
       return Members.findOne({_id: this.params._id})
     }});
   },
-
   edit: function(){
     this.state.set('isEditing', true);
     this.render('PeopleDetail', { data: function(){

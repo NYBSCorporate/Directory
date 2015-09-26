@@ -20,7 +20,7 @@ OnBeforeActions = {
 };
 
 Router.onBeforeAction(OnBeforeActions.loginRequired, {
-    only: ['people', 'committees', 'people.detail', 'people.edit']
+    only: ['people', 'committees', 'people.detail', 'people.edit','organization']
 });
 
 Router.onBeforeAction(OnBeforeActions.adminRequired, {
@@ -94,5 +94,12 @@ Router.route('add/committees', {
   name: 'committees.add',
   controller: 'CommitteesController',
   action: 'add',
+  where: 'client'
+});
+
+Router.route('organization', {
+  name: 'organization',
+  controller: 'OrganizationController',
+  action: 'action',
   where: 'client'
 });
